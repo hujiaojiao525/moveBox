@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+		}
+		.container{
+			width: 1000px;
+			margin:30px auto;
+			height:300px;
+			position: relative;
+		}
+
+		.container .box{
+			width: 200px;
+			height: 300px;
+			float: left;
+			margin-right: 20px;
+			font-size: 30px;
+			position: absolute;
+			top:0;
+		}
+		.box:nth-of-type(1){
+			left:0;
+		}
+		.box:nth-of-type(2){
+			left:220px;
+		}
+		.box:nth-of-type(3){
+			left:440px;
+		}
+		.box:nth-of-type(4){
+			left:660px;
+		}
+		.container span{
+			margin-right:30px;
+			display: inline-block;
+			line-height: 50px;
+			height:50px;
+			cursor: pointer;
+		}
+		.box1{
+			height: 200px;
+			background: #f00;
+			
+		}
+		.box2{
+			height: 200px;
+			background: #ff0;
+			
+		}
+		.box3{
+			height: 200px;
+			background: #0f0;
+			
+		}
+		.box4{
+			height: 200px;
+			background: #00f;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="box">
+			<div class="box1">111</div>
+			<p><span class="left"><<</span><span class="right">>></span><span class="del">×</span></p>
+		</div>
+		<div class="box">
+			<div class="box2">222</div>
+			<p><span class="left"><<</span><span class="right">>></span><span class="del">×</span></p>
+		</div>
+		<div class="box">
+			<div class="box3">333</div>
+			<p><span class="left"><<</span><span class="right">>></span><span class="del">×</span></p>
+		</div>
+		<div class="box">
+			<div class="box4">444</div>
+			<p><span class="left"><<</span><span class="right">>></span><span class="del">×</span></p>
+		</div>
+	</div>	
+
+	<script src="lib/jquery-3.0.0.min.js"></script>
+	<script>
+		var W=$(".box").first().outerWidth(true),
+			len=$(".box").length;
+			
+			Each();
+			function Each(){
+				$(".box").each(function(){
+					var idx=$(this).index();
+					$(this)
+						.animate({'left':W*idx+'px'},400)
+				})
+			}
+		$(".box").on("click",'span',function(){
+			var index=$(this).parents(".box").index(),
+				Parent=$(this).parents(".box");
+				
+				
+			if($(this).hasClass('right')){
+				len=$(".box").length;
+				if(index===(len-1)){
+					$(this).parents('.box').animate({'left':0})
+					Parent.insertBefore($('.box').eq(0));
+					Each();
+				}else{
+					Parent
+						.animate({"left":(index+1)*W+'px','z-index':'2'},400)
+						.next('.box')
+						.animate({"left":(index)*W+'px','z-index':'2'},400);
+					Parent.insertAfter(Parent.next('.box'));
+				}
+			}else if($(this).hasClass('del')){
+				$(this).parents(".box").remove();
+				Each();
+
+			}else if($(this).hasClass('left')){
+				len=$(".box").length;
+				if(index===0){
+					$(this).parents('.box').animate({'left':W*(len-1)+'px'})
+					Parent.insertAfter($('.box').eq(len-1));
+					Each()	
+				}else{
+					Parent
+						.animate({"left":(index-1)*W+'px','z-index':'2'},400)
+						.prev('.box')
+						.animate({"left":(index)*W+'px','z-index':'2'},400);
+					Parent.insertBefore(Parent.prev('.box'));
+				}
+			}
+
+			
+		})
+
+
+
+
+	</script>
+</body>
+</html>
