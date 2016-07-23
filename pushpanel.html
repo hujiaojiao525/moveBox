@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        html,body{
+            margin: 0;
+            padding: 0;
+        }
+        .wrapper{
+            position: relative;
+            width: 100%;
+            height: 200px;
+        }
+        .panelItem{
+            box-sizing: border-box;
+            width: 200px;
+            height: 200px;
+            border: 1px solid #333333;
+            position: absolute;
+            -webkit-transition: transform 0.2s linear;
+        }
+        .panelItem span{
+            float: left;
+            width: 40px;
+            text-align: center;
+            line-height: 40px;
+            cursor: pointer;
+        }
+        .panelItem span:hover{
+            background: lightgoldenrodyellow;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="panelItem">1
+        <p><span direct="left">&lt;</span><span direct="right">&gt;</span><span>X</span></p>
+    </div>
+    <div class="panelItem">2
+        <p><span direct="left">&lt;</span><span direct="right">&gt;</span><span>X</span></p>
+    </div>
+    <div class="panelItem">3
+        <p><span direct="left">&lt;</span><span direct="right">&gt;</span><span>X</span></p>
+    </div>
+
+    <div class="panelItem">4
+        <p><span direct="left">&lt;</span><span direct="right">&gt;</span><span>X</span></p>
+    </div>
+</div>
+<script>
+    //获取元素
+    var items = document.querySelectorAll('.wrapper .panelItem'),
+            len = items.length,
+            itemWidth = parseInt(getStyle(items[0],"width")),
+            flag = 'abc';
+    function getStyle(ele,attr){
+        if(ele.currentStyle){
+            return ele.currentStyle[attr];
+        }else{
+            return getComputedStyle(ele,null)[attr]
+        }
+    }
+    console.log(itemWidth);
+
+    var arr = [];
+    for(var i=0; i< len; i++){
+        items[i].style.webkitTransform = 'translate3d('+itemWidth*i+'px,0,0)';
+        items[i].setAttribute('data-id', flag+i);
+        arr.push(flag + i);
+    }
+
+
+
+
+    function movePanels(arr){
+        arr.forEach(function(val,idx){
+            Array.apply(null,items).forEach(function(v,i){
+                if(v.getAttribute('data-id') == val){
+                    v.style.webkitTransform = 'translate3d('+itemWidth*idx+'px,0,0)';
+                }
+            })
+        })
+    }
+
+
+    var spans = document.querySelectorAll('.wrapper span');
+    var str = arr.join('-');
+    console.log(str);
+    for(var j=0; j<spans.length; j++){
+        spans[j].addEventListener('click',function(){
+            var dir = this.getAttribute('direct'),
+                _id = this.parentNode.parentNode.getAttribute('data-id');
+            var reg = new RegExp('(\\w+)-('+_id+')');
+
+            if(dir == 'left'){//abc0-abc1-abc2-abc3
+                if(reg.test(str)){
+                    str = str.replace(reg,function(a,b,c){
+                        return c+'-'+b;
+                    });
+                }else{
+                    reg = new RegExp('('+_id+')(-[\\w-]+-)(\\w+)$');
+                    str = str.replace(reg,function(a,b,c,d){
+                        return d + c + b;
+                    });
+                }
+
+            }else{
+                reg = new RegExp('('+_id+')-(\\w+)');
+                if(reg.test(str)){
+                    str = str.replace(reg,function(a,b,c){
+                        return c+'-'+b;
+                    });
+                }else{
+                    reg = new RegExp('(\\w+)(-[\\w-]+-)('+_id+')$');
+                    str = str.replace(reg,function(a,b,c,d){
+                        return d + c + b;
+                    });
+                }
+            }
+            console.log(str);
+            arr = str.split('-');
+            movePanels(arr);
+        },false);
+        //第三个参数的意义 ：userCaptrue 是否支持捕获
+    }
+
+
+
+</script>
+</body>
+</html>

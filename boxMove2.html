@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>盒子移动</title>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+		}
+		.container{
+			width: 1000px;
+			margin:30px auto;
+			height:300px;
+			position: relative;
+		}
+
+		.container .box{
+			width: 200px;
+			height: 300px;
+			float: left;
+			margin-right: 20px;
+			font-size: 30px;
+			position: absolute;
+			top:0;
+			-webkit-transition:transform 0.5s;
+		}
+		
+		.container span{
+			margin-right:30px;
+			display: inline-block;
+			line-height: 50px;
+			height:50px;
+			cursor: pointer;
+		}
+		.container span:hover{
+			background: pink;
+		}
+		.box1{
+			height: 200px;
+			background: #f00;
+			
+		}
+		.box2{
+			height: 200px;
+			background: #ff0;
+			
+		}
+		.box3{
+			height: 200px;
+			background: #0f0;
+			
+		}
+		.box4{
+			height: 200px;
+			background: #00f;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="box">
+			<div class="box1">111</div>
+			<p><span data-direct="left">&lt;&lt;</span><span data-direct="right">&gt;&gt;</span><span data-direct="del">×</span></p>
+		</div>
+		<div class="box">
+			<div class="box2">222</div>
+			<p><span data-direct="left">&lt;&lt;</span><span data-direct="right">&gt;&gt;</span><span data-direct="del">×</span></p>
+		</div>
+		<div class="box">
+			<div class="box3">333</div>
+			<p><span data-direct="left">&lt;&lt;</span><span data-direct="right">&gt;&gt;</span><span data-direct="del">×</span></p>
+		</div>
+		<div class="box">
+			<div class="box4">444</div>
+			<p><span data-direct="left">&lt;&lt;</span><span data-direct="right">&gt;&gt;</span><span data-direct="del">×</span></p>
+		</div>
+	</div>
+	
+	<script data-main='js/main' src="js/require.js"></script>
+</body>
+</html>
